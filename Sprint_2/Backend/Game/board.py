@@ -8,10 +8,15 @@ class CellState(Enum):
 class Board:
     MIN_SIZE = 7
     MAX_SIZE = 21
+    SIZE_ERROR = f"Size must be an odd number from {MIN_SIZE} to {MAX_SIZE}"
 
     def __init__(self, size):
-        if size < self.MIN_SIZE or size > self.MAX_SIZE:
-            raise ValueError(f"Size must be between {self.MIN_SIZE} and {self.MAX_SIZE}")
+        if (not isinstance(size, int)
+                or isinstance(size, bool)
+                or size % 2 == 0
+                or size < self.MIN_SIZE
+                or size > self.MAX_SIZE):
+            raise ValueError(self.SIZE_ERROR)
         self.size = size
         self._build_grid()
 
@@ -37,7 +42,23 @@ class Board:
     def peg_count(self):
         return sum(row.count(CellState.PEG) for row in self.grid)
 
+    def set_cell(self, row, col, state):
+        self.grid[row][col] = state
+
+
 class EnglishBoard(Board):
     def _is_valid_cell(self, row, col):
         center = self.size // 2
         return abs(row - center) <= 1 or abs(col - center) <= 1
+
+class DiamondBoard(Board):
+    def _is_valid_cell(self, row, col):
+        center = self.size // 2
+        return abs(row - center) + abs(col - center) <= center
+
+class HexagonBoard(Board):
+    def _is_valid_cell(self, row, col):
+        center = self.size // 2
+        row_offset = abs(row - center)
+        col_offset = abs(col - center)
+        return row_offset <= center and col_offset <= center - (row_offset + 1) // 2
