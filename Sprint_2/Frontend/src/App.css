@@ -1,0 +1,12 @@
+.app { font-family: system-ui, sans-serif; max-width: 960px; margin: 0 auto; padding: 16px; }
+.layout { display: grid; grid-template-columns: 150px 1fr 200px; gap: 24px; align-items: start; }
+.options { display: flex; flex-direction: column; gap: 8px; border: 1px solid #bbb; border-radius: 6px; }
+.controls { display: flex; flex-direction: column; gap: 12px; }
+.controls input { width: 4rem; margin-left: 0.5rem; }
+.board { display: grid; gap: 2px; justify-content: center; }
+.cell { border: 1px solid #555; padding: 0; background: #fff; cursor: pointer; position: relative; }
+.cell.invalid { opacity: 0; border: none; cursor: default; }
+.cell.peg::after { content: ""; position: absolute; inset: 15%; border-radius: 50%; background: #1b1b1b; }
+.cell.selected { background: #ffd966; }
+.error { color: #b00020; }
+.banner { font-weight: 600; background: #e7f3e7; padding: 8px; border-radius: 6px; }
